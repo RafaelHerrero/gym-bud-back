@@ -10,14 +10,14 @@ CREATE TABLE public.users (
 	primary key(user_id)
 );
 
--- CREATE TABLE public.workouts (
---     workout_id TEXT NOT NULL,
---     workout_name TEXT NOT NULL,
---     workout_description TEXT,
--- 	created_at timestamp with time zone,
--- 	updated_at timestamp with time zone DEFAULT now(),
---     primary key(workout_id)
--- );
+CREATE TABLE public.workouts (
+    workout_id TEXT NOT NULL,
+    workout_name TEXT NOT NULL,
+    workout_description TEXT,
+	created_at timestamp with time zone,
+	updated_at timestamp with time zone DEFAULT now(),
+    primary key(workout_id)
+);
 
 
 -- CREATE TABLE public.exercises (
