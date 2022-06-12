@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 class UserTable(Base):
-    
+
     __tablename__ = 'users'
     __table_args__ = {'schema': 'public'}
 
@@ -15,4 +15,3 @@ class UserTable(Base):
     user_password = Column(String)
     updated_at = Column(DateTime)
     created_at = Column(DateTime)
-
