@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, Response, status
 from models.user_model import UserTable
 from sqlalchemy import create_engine, select, insert, delete
 
 router = APIRouter()
 
-@router.post("/create_user", tags=["create user"])
-async def get_create_user(payload= Body(...)):
+@router.post("/create_user", tags=["create user"], status_code=200)
+async def get_create_user(response: Response, payload= Body(...)):
     user_id = f'{payload["user_login"]}'
 
     user_firstname = payload['user_firstname']
@@ -27,6 +27,7 @@ async def get_create_user(payload= Body(...)):
         result = engine.execute(sql)
         result_dict = [dict(t) for t in result]
         print(f'Usuário {result_dict} inserido com sucesso')
+        response.status_code = status.HTTP_201_CREATED
         return result_dict[0]
 
     else:
