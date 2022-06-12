@@ -4,7 +4,6 @@ from routes import users_routes
 
 app = FastAPI(title="Gym-Bud-back App")
 
-
 origins = ["*"]
 
 app.add_middleware(
