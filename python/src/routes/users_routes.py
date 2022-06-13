@@ -34,7 +34,6 @@ async def get_create_user(response: Response, payload= Body(...)):
         return {'error': f'login {user_login} Já cadastrado'}
 
 def check_data(login, engine):
-
     sql = select(UserTable).where(UserTable.user_login == f'{login}')
     result = engine.execute(sql)
     result_list = [list(t) for t in result]
@@ -73,3 +72,31 @@ async def get_user(id):
     result_dict = [dict(t) for t in result]
 
     return result_dict
+
+@router.post("/login", tags=["login user"], status_code=200)
+async def login_user(response: Response, payload= Body(...)):
+    user_login = payload['user_login']
+    user_password = payload['user_password']
+
+    engine = create_engine('postgresql://postgres:postgres@127.0.0.1:5432/postgres')
+    result = check_user_login(user_login, user_password, engine)
+
+    if result != {}:
+        response.status_code = status.HTTP_201_CREATED
+        return {
+            'user_id': result["user_id"],
+            "user_firstname": result["user_firstname"],
+            "user_lastname": result["user_lastname"]
+            }
+    else:
+        return {'error': 'Usario nao cadastrado'}
+
+def check_user_login(login: str, password: str, engine):
+    sql = select(UserTable).where(UserTable.user_login == login)
+    result = engine.execute(sql)
+    result_list = [dict(t) for t in result]
+    print(f'result : {result_list}')
+    if result_list[0]["user_password"] == password:
+        return result_list[0]
+    else:
+        return {}
