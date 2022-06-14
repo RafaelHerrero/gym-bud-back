@@ -7,7 +7,7 @@ CREATE TABLE public.users (
 	user_password TEXT NOT NULL,
 	updated_at timestamp with time zone DEFAULT now(),
 	created_at timestamp with time zone DEFAULT now(),
-	primary key(user_id)
+	primary key(user_login)
 );
 
 -- CREATE TABLE public.workouts (

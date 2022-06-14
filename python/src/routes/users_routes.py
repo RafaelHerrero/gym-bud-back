@@ -1,102 +1,54 @@
 from fastapi import APIRouter, Body, Response, status
-from models.user_model import UserTable
-from sqlalchemy import create_engine, select, insert, delete
+from lib.core.user_rules import User
+from lib.helper.hash_values import HashValues
 
 router = APIRouter()
 
-@router.post("/create_user", tags=["create user"], status_code=200)
-async def get_create_user(response: Response, payload= Body(...)):
-    user_id = f'{payload["user_login"]}'
-
-    user_firstname = payload['user_firstname']
-    user_lastname = payload['user_lastname']
-    user_login = payload['user_login']
-    user_password = payload['user_password']
-    engine = create_engine('postgresql://postgres:postgres@127.0.0.1:5432/postgres')
-    result = check_data(user_login, engine)
-
-    if not result:
-        sql = insert(UserTable).values(
-                user_id=user_id,
-                user_firstname=user_firstname,
-                user_lastname=user_lastname,
-                user_login=user_login,
-                user_password=user_password
-            ).returning(UserTable.user_id)
-
-        result = engine.execute(sql)
-        result_dict = [dict(t) for t in result]
-        print(f'Usuário {result_dict} inserido com sucesso')
+@router.post("/create", tags=["create user"])
+async def create_user(response: Response, payload=Body(...)):
+    user = User()
+    insert_operation = user.create_user(payload=payload)
+    if insert_operation["error"] == "":
         response.status_code = status.HTTP_201_CREATED
-        return result_dict[0]
+    return insert_operation
 
-    else:
-        return {'error': f'login {user_login} Já cadastrado'}
-
-def check_data(login, engine):
-    sql = select(UserTable).where(UserTable.user_login == f'{login}')
-    result = engine.execute(sql)
-    result_list = [list(t) for t in result]
-    print(f'result : {result_list}')
-    bool_result = bool(result_list)
-    return bool_result
-
-@router.delete("/delete_user/{login}", tags=["delete user by login"])
-async def delete_user(login):
-    engine = create_engine('postgresql://postgres:postgres@127.0.0.1:5432/postgres')
-    sql = delete(UserTable).where(UserTable.user_login == login).returning(UserTable.user_login)
-    result = engine.execute(sql)
-    result_list = [t for t in result]
-    print(result_list)
-    if len(result_list) != 0:
-        return 200
-    else:
-        return f'failed to delete {login}'
-
+@router.delete("/delete", tags=["Delete User by ID"])
+async def delete_user(payload=Body(...)):
+    user = User()
+    delete_operation = user.delete_user(user_id=payload["user_id"])
+    return delete_operation
 
 @router.get("/all", tags=["get user"])
 async def get_all_users():
-    engine = create_engine('postgresql://postgres:postgres@127.0.0.1:5432/postgres')
-    sql = select(UserTable)
+    user = User()
+    get_all = user.get_all_users()
+    return get_all
 
-    result =  engine.execute(sql)
-    result_dict = [dict(t) for t in result]
-
-    return result_dict
-
-@router.get("/{id}", tags=["get user by id"])
-async def get_user(id):
-    engine = create_engine('postgresql://postgres:postgres@127.0.0.1:5432/postgres')
-    sql = select(UserTable).where(UserTable.user_id == id)
-    result =  engine.execute(sql)
-    result_dict = [dict(t) for t in result]
-
-    return result_dict
+@router.get("/{_id}", tags=["get user by id"])
+async def get_user(_id):
+    user = User()
+    this_user = user.get_user(_id, "user_id")
+    return this_user
 
 @router.post("/login", tags=["login user"], status_code=200)
-async def login_user(response: Response, payload= Body(...)):
-    user_login = payload['user_login']
-    user_password = payload['user_password']
+async def login_user(payload=Body(...)):
+    user = User()
+    user_login = user.get_user(payload["user_login"], "user_login")
+    print(user_login)
+    if "error" not in user_login.keys():
+        return_value = validate_password(user_login, payload["user_password"])
+        return return_value
+    else:
+        return user_login
 
-    engine = create_engine('postgresql://postgres:postgres@127.0.0.1:5432/postgres')
-    result = check_user_login(user_login, user_password, engine)
-
-    if result != {}:
-        response.status_code = status.HTTP_201_CREATED
-        return {
-            'user_id': result["user_id"],
-            "user_firstname": result["user_firstname"],
-            "user_lastname": result["user_lastname"]
+def validate_password(existing_user: dict, new_pass: str) -> dict:
+    new_hash_pass = HashValues().create_hash(new_pass)
+    if new_hash_pass == existing_user["user_password"]:
+        return_value = {
+            "user_id": existing_user["user_id"],
+            "user_firstname": existing_user["user_firstname"]
             }
     else:
-        return {'error': 'Usario nao cadastrado'}
+        return_value = {"error": "wrong password"}
 
-def check_user_login(login: str, password: str, engine):
-    sql = select(UserTable).where(UserTable.user_login == login)
-    result = engine.execute(sql)
-    result_list = [dict(t) for t in result]
-    print(f'result : {result_list}')
-    if result_list[0]["user_password"] == password:
-        return result_list[0]
-    else:
-        return {}
+    return return_value
