@@ -46,7 +46,8 @@ def validate_password(existing_user: dict, new_pass: str) -> dict:
     if new_hash_pass == existing_user["user_password"]:
         return_value = {
             "user_id": existing_user["user_id"],
-            "user_firstname": existing_user["user_firstname"]
+            "user_firstname": existing_user["user_firstname"],
+            "error": ""
             }
     else:
         return_value = {"error": "wrong password"}
