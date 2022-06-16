@@ -1,55 +1,45 @@
-from fastapi import APIRouter, Body, Response, status
-from lib.core.user_rules import User
+from turtle import st
+from fastapi import APIRouter, Body, status, HTTPException, Response
+from pkg_resources import resource_isdir
+from lib.core.user_rules import UserService
 from lib.helper.hash_values import HashValues
+from lib.models.user_model import CreateUser, UserId, LoginUser
+from lib.errors.errors import NotFoundError
 
 router = APIRouter()
 
-@router.post("/create", tags=["create user"])
-async def create_user(response: Response, payload=Body(...)):
-    user = User()
-    insert_operation = user.create_user(payload=payload)
-    if insert_operation["error"] == "":
-        response.status_code = status.HTTP_201_CREATED
-    return insert_operation
+@router.post("/create", tags=["Users Routes"], status_code=status.HTTP_201_CREATED)
+async def create_user(payload: CreateUser = Body(...)):
+    user = UserService()
+    return user.create_user(payload=payload)
 
-@router.delete("/delete", tags=["Delete User by ID"])
-async def delete_user(payload=Body(...)):
-    user = User()
-    delete_operation = user.delete_user(user_id=payload["user_id"])
-    return delete_operation
+@router.delete("/delete", tags=["Users Routes"])
+async def delete_user(payload: UserId = Body(...)):
+    user = UserService()
+    try:
+        user.delete_user(payload.user_id)
+    except:
+        return Response(status_code=status.HTTP_404_NOT_FOUND)
+    else:
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
 
-@router.get("/all", tags=["get user"])
+@router.get("/all", tags=["Users Routes"])
 async def get_all_users():
-    user = User()
-    get_all = user.get_all_users()
-    return get_all
+    user = UserService()
+    return user.get_all_users()
 
-@router.get("/{_id}", tags=["get user by id"])
+@router.get("/{_id}", tags=["Users Routes"])
 async def get_user(_id):
-    user = User()
-    this_user = user.get_user(_id, "user_id")
-    return this_user
+    user = UserService()
+    return user.get_user(_id, "user_id")
 
-@router.post("/login", tags=["login user"], status_code=200)
-async def login_user(payload=Body(...)):
-    user = User()
-    user_login = user.get_user(payload["user_login"], "user_login")
-    print(user_login)
-    if "error" not in user_login.keys():
-        return_value = validate_password(user_login, payload["user_password"])
-        return return_value
+@router.post("/login", tags=["Users Routes"], status_code=200)
+async def login_user(payload: LoginUser = Body(...)):
+    user = UserService()
+    try:
+        existing_user = user.login_user(payload)
+    except:
+        return Response(status_code=status.HTTP_404_NOT_FOUND)
     else:
-        return user_login
+        return existing_user
 
-def validate_password(existing_user: dict, new_pass: str) -> dict:
-    new_hash_pass = HashValues().create_hash(new_pass)
-    if new_hash_pass == existing_user["user_password"]:
-        return_value = {
-            "user_id": existing_user["user_id"],
-            "user_firstname": existing_user["user_firstname"],
-            "error": ""
-            }
-    else:
-        return_value = {"error": "wrong password"}
-
-    return return_value

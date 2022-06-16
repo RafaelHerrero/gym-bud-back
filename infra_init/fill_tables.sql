@@ -1,5 +1,5 @@
 INSERT INTO public.users (user_id,user_firstname,user_lastname,user_login,user_password) VALUES ('1AGTW234', 'Eloy', 'Herrero', 'eloy', 'c91644671c970ffbd9cb0f05881203b5d88430edff78820c0e340d2eff0a3a6a');
-INSERT INTO public.users (user_id,user_firstname,user_lastname,user_login,user_password) VALUES ('ASD1F2FA', 'Rafael', 'admin', 'admin', '66ec97cbb01eafa9114570058be56287f37d426b82db1b4e75efb23473838621');
+INSERT INTO public.users (user_id,user_firstname,user_lastname,user_login,user_password) VALUES ('ASD1F2FA', 'Rafael', 'admin', 'admin', 'bca3786045ad89e9021ca613ea4affb523f3388f1d3c751922313f5062dec0ac');
 INSERT INTO public.users (user_id,user_firstname,user_lastname,user_login,user_password) VALUES ('BKSUFHE3', 'Thales', 'Fernandes', 'thales', 'senha_thales');
 
 INSERT INTO public.exercise_plans (exercise_plan_id,exercise_plan_name,exercise_plan_description) VALUES ('FORCA', 'Treino de Força', 'Estamos na fase de Força da nossa periodização, vamos fazer poucas repetições e muito peso');

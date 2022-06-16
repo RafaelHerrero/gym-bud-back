@@ -4,7 +4,7 @@ from abc import ABC
 import argparse
 import sys
 from lib.helper.hash_values import HashValues
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, orm
 from sqlalchemy.orm import sessionmaker
 
 
@@ -15,7 +15,6 @@ class BaseJob(ABC):
         self.logger = StructLog(self.config.LOG_LEVEL, self.config.ENV)
         self.parser = argparse.ArgumentParser(description=self.config.DESCRIPTION)
         self.create_db_session()
-        self.logger.info(f"Init {self.config.JOB_NAME} Job")
 
     # @abstractmethod
     # def execute(self):
@@ -23,5 +22,10 @@ class BaseJob(ABC):
 
     def create_db_session(self):
         self.engine = create_engine(self.config.DB)
-        Session = sessionmaker(bind=self.engine)
-        self.session = Session()
+        self.session_factory = orm.scoped_session(
+            orm.sessionmaker(
+                autocommit=False,
+                autoflush=False,
+                bind=self.engine,
+            ),
+        )

@@ -1,5 +1,6 @@
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
+from pydantic import BaseModel
 
 Base = declarative_base()
 
@@ -15,3 +16,16 @@ class UserTable(Base):
     user_password = Column(String)
     updated_at = Column(DateTime)
     created_at = Column(DateTime)
+
+class CreateUser(BaseModel):
+    user_firstname: str
+    user_lastname: str
+    user_login: str
+    user_password: str
+
+class UserId(BaseModel):
+    user_id: str
+
+class LoginUser(BaseModel):
+    user_login: str
+    user_password: str

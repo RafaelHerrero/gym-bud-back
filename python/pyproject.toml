@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "python"
+name = "gym-bud-app"
 version = "0.1.0"
 description = ""
 authors = ["Rafael Herrero <rafaelgherrero@gmail.com>"]

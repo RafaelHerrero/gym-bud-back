@@ -1,3 +1,4 @@
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes import users_routes
@@ -17,7 +18,7 @@ app.add_middleware(
 app.include_router(
     users_routes.router,
     prefix="/users",
-    tags=["rota users"],
+    tags=["Users Routes"],
     )
 
 @app.get("/", tags=["Home Page"])
@@ -31,3 +32,6 @@ async def ops_live():
 @app.get("/ops/ready", tags=["Home Page"])
 async def ops_ready():
     return 200
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="127.0.0.1", port=42069, log_level="info")
