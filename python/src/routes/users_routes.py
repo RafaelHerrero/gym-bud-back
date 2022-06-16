@@ -1,10 +1,6 @@
-from turtle import st
-from fastapi import APIRouter, Body, status, HTTPException, Response
-from pkg_resources import resource_isdir
+from fastapi import APIRouter, Body, status, Response
 from lib.core.user_rules import UserService
-from lib.helper.hash_values import HashValues
 from lib.models.user_model import CreateUser, UserId, LoginUser
-from lib.errors.errors import NotFoundError
 
 router = APIRouter()
 
