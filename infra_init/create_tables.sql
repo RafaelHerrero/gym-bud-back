@@ -5,6 +5,7 @@ CREATE TABLE public.users (
 	user_lastname text NOT NULL,
 	user_login TEXT NOT NULL,
 	user_password TEXT NOT NULL,
+	user_is_active BOOLEAN NOT NULL DEFAULT TRUE,
 	updated_at timestamp with time zone DEFAULT now(),
 	created_at timestamp with time zone DEFAULT now(),
 	primary key(user_login)
@@ -43,6 +44,7 @@ CREATE TABLE public.user_exercise_plans (
     user_exercise_plan_id TEXT UNIQUE NOT NULL,
     user_id TEXT REFERENCES public.users(user_id) NOT NULL,
     exercise_plan_id TEXT REFERENCES public.exercise_plans(exercise_plan_id) NOT NULL,
+	exercise_plan_is_active BOOLEAN NOT NULL,
 	exercise_plan_started_at timestamp with time zone,
 	exercise_plan_finished_at timestamp with time zone,
 	exercise_plan_expected_duration TEXT,

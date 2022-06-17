@@ -1,7 +1,8 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes import users_routes
+from routes import user_routes
+from routes import workout_routes
 
 app = FastAPI(title="Gym-Bud-back App")
 
@@ -15,11 +16,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(
-    users_routes.router,
-    prefix="/users",
-    tags=["Users Routes"],
-    )
+app.include_router(user_routes.router)
+app.include_router(workout_routes.router)
 
 @app.get("/", tags=["Home Page"])
 async def root():

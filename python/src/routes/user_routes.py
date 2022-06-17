@@ -1,15 +1,18 @@
 from fastapi import APIRouter, Body, status, Response
 from lib.core.user_rules import UserService
-from lib.models.user_model import CreateUser, UserId, LoginUser
+from lib.models.models import CreateUser, UserId, LoginUser
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/user",
+    tags=["User Routes"]
+    )
 
-@router.post("/create", tags=["Users Routes"], status_code=status.HTTP_201_CREATED)
+@router.post("/create", tags=["User Routes"], status_code=status.HTTP_201_CREATED)
 async def create_user(payload: CreateUser = Body(...)):
     user = UserService()
     return user.create_user(payload=payload)
 
-@router.delete("/delete", tags=["Users Routes"])
+@router.delete("/delete", tags=["User Routes"])
 async def delete_user(payload: UserId = Body(...)):
     user = UserService()
     try:
@@ -19,12 +22,12 @@ async def delete_user(payload: UserId = Body(...)):
     else:
         return Response(status_code=status.HTTP_204_NO_CONTENT)
 
-@router.get("/all", tags=["Users Routes"])
+@router.get("/all", tags=["User Routes"])
 async def get_all_users():
     user = UserService()
     return user.get_all_users()
 
-@router.get("/{_id}", tags=["Users Routes"])
+@router.get("/{_id}", tags=["User Routes"])
 async def get_user(_id):
     user = UserService()
     return user.get_user(_id, "user_id")

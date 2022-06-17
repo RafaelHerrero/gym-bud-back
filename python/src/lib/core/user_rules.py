@@ -1,5 +1,5 @@
 from fastapi import Response, status
-from lib.models.user_model import UserTable, CreateUser
+from lib.models.models import UserTable, CreateUser
 from lib.base.base_job import BaseJob
 from lib.errors.errors import UserNotFoundError, PasswordNotFoundError
 from lib.helper.hash_values import HashValues

@@ -44,8 +44,8 @@ INSERT INTO public.exercises (exercise_id,exercise_name,exercise_muscle_group,ex
 INSERT INTO public.exercises (exercise_id,exercise_name,exercise_muscle_group,exercise_description) VALUES ('PUXADA_FRENTE_TRIANG_ID', 'Puxada frente com triângulo', 'Back', '');
 INSERT INTO public.exercises (exercise_id,exercise_name,exercise_muscle_group,exercise_description) VALUES ('ELEV_LAT_UNI_ID', 'Elevação lateral unilateral na polia baixa', 'Legs', 'Shoulder');
 
-INSERT INTO public.user_exercise_plans (user_exercise_plan_id,user_id,exercise_plan_id,exercise_plan_started_at,exercise_plan_finished_at,exercise_plan_expected_duration) VALUES ('RAFA_FORCA', 'ASD1F2FA', 'FORCA', '2022-01-01', '2022-02-01', '8');
-INSERT INTO public.user_exercise_plans (user_exercise_plan_id,user_id,exercise_plan_id,exercise_plan_started_at,exercise_plan_finished_at,exercise_plan_expected_duration) VALUES ('RAFA_RESIST', 'ASD1F2FA', 'RESISTENCIA', '2021-11-01', '2021-12-02', '10');
+INSERT INTO public.user_exercise_plans (user_exercise_plan_id,user_id,exercise_plan_id,exercise_plan_is_active,exercise_plan_started_at,exercise_plan_finished_at,exercise_plan_expected_duration) VALUES ('RAFA_FORCA', 'ASD1F2FA', 'FORCA', 'TRUE', '2022-01-01', '2022-02-01', '8');
+INSERT INTO public.user_exercise_plans (user_exercise_plan_id,user_id,exercise_plan_id,exercise_plan_is_active,exercise_plan_started_at,exercise_plan_finished_at,exercise_plan_expected_duration) VALUES ('RAFA_RESIST', 'ASD1F2FA', 'RESISTENCIA', 'FALSE', '2021-11-01', '2021-12-02', '10');
 
 INSERT INTO public.exercise_plan_workouts (exercise_plan_workout_id,exercise_plan_id,workout_id) VALUES ('FORCA_WORKOUT01', 'FORCA', 'WORKOUT01');
 INSERT INTO public.exercise_plan_workouts (exercise_plan_workout_id,exercise_plan_id,workout_id) VALUES ('FORCA_WORKOUT02', 'FORCA', 'WORKOUT02');
