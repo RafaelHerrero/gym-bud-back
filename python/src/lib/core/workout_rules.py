@@ -13,7 +13,7 @@ class WorkoutService(BaseJob):
             active_plan = session.query(WorkoutPlanWorkoutsTable) \
                 .join(UserWorkoutPlansTable, UserWorkoutPlansTable.user_id == user_id) \
                 .join(WorkoutTable) \
-                .filter(UserWorkoutPlansTable.exercise_plan_is_active == True) \
+                .filter(UserWorkoutPlansTable.workout_plan_is_active == True) \
                 .all()
 
             if not active_plan:

@@ -49,7 +49,7 @@ class WorkoutPlansTable(Base):
 
 
 class UserWorkoutPlansTable(Base):
-    __tablename__ = 'user_exercise_plans'
+    __tablename__ = 'user_workout_plans'
 
     user_workout_plan_id = Column(String, primary_key=True)
     user_id = Column(String, ForeignKey("users.user_id"))
