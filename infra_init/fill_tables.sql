@@ -2,8 +2,8 @@ INSERT INTO public.users (user_id,user_firstname,user_lastname,user_login,user_p
 INSERT INTO public.users (user_id,user_firstname,user_lastname,user_login,user_password) VALUES ('ASD1F2FA', 'Rafael', 'admin', 'admin', 'bca3786045ad89e9021ca613ea4affb523f3388f1d3c751922313f5062dec0ac');
 INSERT INTO public.users (user_id,user_firstname,user_lastname,user_login,user_password) VALUES ('BKSUFHE3', 'Thales', 'Fernandes', 'thales', 'senha_thales');
 
-INSERT INTO public.exercise_plans (exercise_plan_id,exercise_plan_name,exercise_plan_description) VALUES ('FORCA', 'Treino de Força', 'Estamos na fase de Força da nossa periodização, vamos fazer poucas repetições e muito peso');
-INSERT INTO public.exercise_plans (exercise_plan_id,exercise_plan_name,exercise_plan_description) VALUES ('RESISTENCIA', 'Treino de Resistencia', 'Vamos realizar muitas repetições e pouca carga para desenvolver resistencia');
+INSERT INTO public.workout_plans (workout_plan_id,workout_plan_name,workout_plan_description) VALUES ('FORCA', 'Treino de Força', 'Estamos na fase de Força da nossa periodização, vamos fazer poucas repetições e muito peso');
+INSERT INTO public.workout_plans (workout_plan_id,workout_plan_name,workout_plan_description) VALUES ('RESISTENCIA', 'Treino de Resistencia', 'Vamos realizar muitas repetições e pouca carga para desenvolver resistencia');
 
 INSERT INTO public.workouts (workout_id,workout_name,workout_description) VALUES ('WORKOUT01', 'Treino A', 'Full Upper Body');
 INSERT INTO public.workouts (workout_id,workout_name,workout_description) VALUES ('WORKOUT02', 'Treino B', 'Full Lower Body');
@@ -44,13 +44,13 @@ INSERT INTO public.exercises (exercise_id,exercise_name,exercise_muscle_group,ex
 INSERT INTO public.exercises (exercise_id,exercise_name,exercise_muscle_group,exercise_description) VALUES ('PUXADA_FRENTE_TRIANG_ID', 'Puxada frente com triângulo', 'Back', '');
 INSERT INTO public.exercises (exercise_id,exercise_name,exercise_muscle_group,exercise_description) VALUES ('ELEV_LAT_UNI_ID', 'Elevação lateral unilateral na polia baixa', 'Legs', 'Shoulder');
 
-INSERT INTO public.user_exercise_plans (user_exercise_plan_id,user_id,exercise_plan_id,exercise_plan_is_active,exercise_plan_started_at,exercise_plan_finished_at,exercise_plan_expected_duration) VALUES ('RAFA_FORCA', 'ASD1F2FA', 'FORCA', 'TRUE', '2022-01-01', '2022-02-01', '8');
-INSERT INTO public.user_exercise_plans (user_exercise_plan_id,user_id,exercise_plan_id,exercise_plan_is_active,exercise_plan_started_at,exercise_plan_finished_at,exercise_plan_expected_duration) VALUES ('RAFA_RESIST', 'ASD1F2FA', 'RESISTENCIA', 'FALSE', '2021-11-01', '2021-12-02', '10');
+INSERT INTO public.user_workout_plans (user_workout_plan_id,user_id,workout_plan_id,workout_plan_is_active,workout_plan_started_at,workout_plan_finished_at,workout_plan_expected_duration) VALUES ('RAFA_FORCA', 'ASD1F2FA', 'FORCA', 'TRUE', '2022-01-01', '2022-02-01', '8');
+INSERT INTO public.user_workout_plans (user_workout_plan_id,user_id,workout_plan_id,workout_plan_is_active,workout_plan_started_at,workout_plan_finished_at,workout_plan_expected_duration) VALUES ('RAFA_RESIST', 'ASD1F2FA', 'RESISTENCIA', 'FALSE', '2021-11-01', '2021-12-02', '10');
 
-INSERT INTO public.exercise_plan_workouts (exercise_plan_workout_id,exercise_plan_id,workout_id) VALUES ('FORCA_WORKOUT01', 'FORCA', 'WORKOUT01');
-INSERT INTO public.exercise_plan_workouts (exercise_plan_workout_id,exercise_plan_id,workout_id) VALUES ('FORCA_WORKOUT02', 'FORCA', 'WORKOUT02');
-INSERT INTO public.exercise_plan_workouts (exercise_plan_workout_id,exercise_plan_id,workout_id) VALUES ('FORCA_WORKOUT03', 'FORCA', 'WORKOUT03');
-INSERT INTO public.exercise_plan_workouts (exercise_plan_workout_id,exercise_plan_id,workout_id) VALUES ('FORCA_WORKOUT04', 'FORCA', 'WORKOUT04');
+INSERT INTO public.workout_plan_workouts (workout_plan_workout_id,workout_plan_id,workout_id) VALUES ('FORCA_WORKOUT01', 'FORCA', 'WORKOUT01');
+INSERT INTO public.workout_plan_workouts (workout_plan_workout_id,workout_plan_id,workout_id) VALUES ('FORCA_WORKOUT02', 'FORCA', 'WORKOUT02');
+INSERT INTO public.workout_plan_workouts (workout_plan_workout_id,workout_plan_id,workout_id) VALUES ('FORCA_WORKOUT03', 'FORCA', 'WORKOUT03');
+INSERT INTO public.workout_plan_workouts (workout_plan_workout_id,workout_plan_id,workout_id) VALUES ('FORCA_WORKOUT04', 'FORCA', 'WORKOUT04');
 
 INSERT INTO public.workout_exercises (workout_exercise_id,workout_id,exercise_id,exercise_sets,exercise_reps,exercise_description) VALUES ('WORKOUT01_SUPINO_INCLINADO_SMITH_ID', 'WORKOUT01', 'SUPINO_INCLINADO_SMITH_ID', '1', '', 'MR');
 INSERT INTO public.workout_exercises (workout_exercise_id,workout_id,exercise_id,exercise_sets,exercise_reps,exercise_description) VALUES ('WORKOUT01_SUPINO_RETO_ARTICULADO_ID', 'WORKOUT01', 'SUPINO_RETO_ARTICULADO_ID', '1', '', 'RP');

@@ -38,44 +38,44 @@ class WorkoutTable(Base):
     created_at = Column(DateTime)
 
 
-class ExercisePlansTable(Base):
-    __tablename__ = 'exercise_plans'
+class WorkoutPlansTable(Base):
+    __tablename__ = 'workout_plans'
 
-    exercise_plan_id = Column(String, primary_key=True)
-    exercise_plan_name = Column(String)
-    exercise_plan_description = Column(String)
+    workout_plan_id = Column(String, primary_key=True)
+    workout_plan_name = Column(String)
+    workout_plan_description = Column(String)
     updated_at = Column(DateTime)
     created_at = Column(DateTime)
 
 
-class UserExercisePlansTable(Base):
+class UserWorkoutPlansTable(Base):
     __tablename__ = 'user_exercise_plans'
 
-    user_exercise_plan_id = Column(String, primary_key=True)
+    user_workout_plan_id = Column(String, primary_key=True)
     user_id = Column(String, ForeignKey("users.user_id"))
-    exercise_plan_id = Column(String, ForeignKey("exercise_plans.exercise_plan_id"))
-    exercise_plan_is_active = Column(Boolean)
-    exercise_plan_started_at = Column(DateTime)
-    exercise_plan_finished_at = Column(DateTime)
-    exercise_plan_expected_duration = Column(String)
+    workout_plan_id = Column(String, ForeignKey("workout_plans.workout_plan_id"))
+    workout_plan_is_active = Column(Boolean)
+    workout_plan_started_at = Column(DateTime)
+    workout_plan_finished_at = Column(DateTime)
+    workout_plan_expected_duration = Column(String)
     updated_at = Column(DateTime)
     created_at = Column(DateTime)
 
     user = relationship("UserTable")
-    exercise_plan = relationship("ExercisePlansTable")
+    exercise_plan = relationship("WorkoutPlansTable")
 
 
-class ExercisePlanWorkoutsTable(Base):
-    __tablename__ = 'exercise_plan_workouts'
+class WorkoutPlanWorkoutsTable(Base):
+    __tablename__ = 'workout_plan_workouts'
 
-    exercise_plan_workout_id = Column(String, primary_key=True)
+    workout_plan_workout_id = Column(String, primary_key=True)
     workout_id = Column(String, ForeignKey("workouts.workout_id"))
-    exercise_plan_id = Column(String, ForeignKey("exercise_plans.exercise_plan_id"))
+    workout_plan_id = Column(String, ForeignKey("workout_plans.workout_plan_id"))
     updated_at = Column(DateTime)
     created_at = Column(DateTime)
 
     workout = relationship("WorkoutTable")
-    exercise_plan = relationship("ExercisePlansTable")
+    exercise_plan = relationship("WorkoutPlansTable")
 
 
 
