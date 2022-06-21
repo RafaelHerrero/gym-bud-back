@@ -1,7 +1,7 @@
 from fastapi import Response, status
 from lib.base.base_job import BaseJob
 from lib.errors.errors import WorkoutNotFoundError
-from lib.models.models import WorkoutTable, UserWorkoutPlansTable, WorkoutPlanWorkoutsTable
+from lib.models.models import WorkoutTable, UserWorkoutPlansTable, WorkoutPlanWorkoutsTable, WorkoutPlansTable
 
 
 class WorkoutService(BaseJob):
@@ -20,3 +20,8 @@ class WorkoutService(BaseJob):
                 raise WorkoutNotFoundError(user_id)
 
             return active_plan
+
+    def get_all_workout_plans(self):
+        print("a")
+        with self.session_factory() as session:
+            return session.query(WorkoutPlansTable).all()
