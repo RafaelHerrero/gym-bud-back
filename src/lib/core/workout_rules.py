@@ -10,9 +10,9 @@ class WorkoutService(BaseJob):
 
     def get_user_active_workout(self, user_id):
         with self.session_factory() as session:
-            active_plan = session.query(WorkoutPlanWorkoutsTable) \
+            active_plan = session.query(WorkoutTable) \
                 .join(UserWorkoutPlansTable, UserWorkoutPlansTable.user_id == user_id) \
-                .join(WorkoutTable) \
+                .join(WorkoutPlanWorkoutsTable) \
                 .filter(UserWorkoutPlansTable.workout_plan_is_active == True) \
                 .all()
 
