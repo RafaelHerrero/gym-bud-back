@@ -1,6 +1,7 @@
 from fastapi import Response, status
 from lib.base.base_job import BaseJob
 from lib.errors.errors import WorkoutNotFoundError
+from lib.logger.struct_log import logger
 from lib.models.models import WorkoutTable, UserWorkoutPlansTable, WorkoutPlanWorkoutsTable, WorkoutPlansTable
 
 
@@ -17,7 +18,9 @@ class WorkoutService(BaseJob):
                 .all()
 
             if not active_plan:
-                raise WorkoutNotFoundError(user_id)
+                logger.info(f"Workout not found, user_id{user_id}")
+                active_plan = []
+                # raise WorkoutNotFoundError(user_id)
 
             return active_plan
 
