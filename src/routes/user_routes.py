@@ -32,7 +32,7 @@ async def get_user(_id):
     user = UserService()
     return user.get_user(_id, "user_id")
 
-@router.post("/login", tags=["Users Routes"], status_code=200)
+@router.post("/login", tags=["User Routes"], status_code=200)
 async def login_user(payload: LoginUser = Body(...)):
     user = UserService()
     try:
