@@ -5,7 +5,7 @@ from lib.errors.errors import UserNotFoundError, PasswordNotFoundError
 from lib.helper.hash_values import HashValues
 
 
-class UserService(BaseJob):
+class UserController(BaseJob):
     def __init__(self) -> None:
         super().__init__()
         self.table = UserTable

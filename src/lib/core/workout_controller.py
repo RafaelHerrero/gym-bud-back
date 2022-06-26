@@ -1,17 +1,15 @@
-from fastapi import Response, status
 from lib.base.base_job import BaseJob
-from lib.errors.errors import WorkoutNotFoundError
 from lib.logger.struct_log import logger
 from lib.models.models import WorkoutTable, UserWorkoutPlansTable, WorkoutPlanWorkoutsTable, WorkoutPlansTable
 from lib.models.models import Workouts
 from sqlalchemy import select, and_
 
 
-class WorkoutService(BaseJob):
+class WorkoutController(BaseJob):
     def __init__(self) -> None:
         super().__init__()
 
-    def get_user_active_workout(self, user_id):
+    def get_user_active_workouts(self, user_id):
         query = select(WorkoutTable) \
                     .join(WorkoutPlanWorkoutsTable,
                             WorkoutPlanWorkoutsTable.workout_id == WorkoutTable.workout_id) \
@@ -37,7 +35,6 @@ class WorkoutService(BaseJob):
             return workout_list
 
     def get_all_workout_plans(self):
-        print("a")
         with self.session_factory() as session:
             return session.query(WorkoutPlansTable).all()
 
@@ -47,8 +44,8 @@ class WorkoutService(BaseJob):
                             UserWorkoutPlansTable.workout_plan_id == WorkoutPlansTable.workout_plan_id) \
                     .where(and_(
                         UserWorkoutPlansTable.user_id == user_id,
-                        UserWorkoutPlansTable.workout_plan_is_active == True
-                        ))
+                        UserWorkoutPlansTable.workout_plan_is_active == True))
+
         with self.session_factory() as session:
             active_plans = session.execute(query).fetchall()
 
