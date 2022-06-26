@@ -1,3 +1,5 @@
+from datetime import datetime
+from typing import Optional
 from sqlalchemy import Column, String, DateTime, ForeignKey, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -91,3 +93,14 @@ class UserId(BaseModel):
 class LoginUser(BaseModel):
     user_login: str
     user_password: str
+
+class Workouts(BaseModel):
+    workout_id: Optional[str]
+    workout_name: Optional[str]
+    workout_description: Optional[str]
+    created_at: Optional[datetime]
+    updated_at: Optional[datetime]
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
