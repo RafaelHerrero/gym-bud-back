@@ -1,6 +1,6 @@
 from lib.base.base_job import BaseJob
 from lib.logger.struct_log import logger
-from lib.models.models import WorkoutTable, UserWorkoutPlansTable, WorkoutPlanWorkoutsTable, WorkoutPlansTable
+from lib.models.models import WorkoutsTable, UserWorkoutPlansTable, WorkoutPlanWorkoutsTable, WorkoutPlansTable
 from lib.models.models import Workouts
 from sqlalchemy import select, and_
 
@@ -10,9 +10,9 @@ class WorkoutController(BaseJob):
         super().__init__()
 
     def get_user_active_workouts(self, user_id):
-        query = select(WorkoutTable) \
+        query = select(WorkoutsTable) \
                     .join(WorkoutPlanWorkoutsTable,
-                            WorkoutPlanWorkoutsTable.workout_id == WorkoutTable.workout_id) \
+                            WorkoutPlanWorkoutsTable.workout_id == WorkoutsTable.workout_id) \
                     .join(WorkoutPlansTable,
                             WorkoutPlansTable.workout_plan_id == WorkoutPlanWorkoutsTable.workout_plan_id) \
                     .join(UserWorkoutPlansTable,

@@ -8,10 +8,10 @@ router = APIRouter(
     tags=["Exercises Routes"]
 )
 
-@router.get("/{workout_id}/{user_id}", tags=["Exercises Routes"], status_code=200)
+@router.get("/{user_id}/{workout_id}", tags=["Exercises Routes"], status_code=200)
 async def get_exercises_from_workout(user_id: str, workout_id: str):
     exercises = ExerciseController()
-    return exercises.get_exercises_from_workout()
+    return exercises.get_exercises_from_workout(user_id, workout_id)
 
 @router.get("/{muscle_group}", tags=["Exercises Routes"], status_code=200)
 async def get_exercise_by_muscle_group(muscle_group: str):

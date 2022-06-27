@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from sqlalchemy import Column, String, DateTime, ForeignKey, Boolean
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from pydantic import BaseModel
@@ -30,7 +30,7 @@ class ExercisesTable(Base):
     created_at = Column(DateTime)
 
 
-class WorkoutTable(Base):
+class WorkoutsTable(Base):
     __tablename__ = 'workouts'
 
     workout_id = Column(String, primary_key=True)
@@ -39,6 +39,15 @@ class WorkoutTable(Base):
     updated_at = Column(DateTime)
     created_at = Column(DateTime)
 
+class Workouts(BaseModel):
+    workout_id: Optional[str]
+    workout_name: Optional[str]
+    workout_description: Optional[str]
+    created_at: Optional[datetime]
+    updated_at: Optional[datetime]
+
+    class Config:
+        orm_mode = True
 
 class WorkoutPlansTable(Base):
     __tablename__ = 'workout_plans'
@@ -76,8 +85,23 @@ class WorkoutPlanWorkoutsTable(Base):
     updated_at = Column(DateTime)
     created_at = Column(DateTime)
 
-    workout = relationship("WorkoutTable")
+    workout = relationship("WorkoutsTable")
     exercise_plan = relationship("WorkoutPlansTable")
+
+class WorkoutExercisesTable(Base):
+    __tablename__ = 'workout_exercises'
+
+    workout_exercise_id = Column(String, primary_key=True)
+    workout_id = Column(String, ForeignKey("workouts.workout_id"))
+    exercise_id = Column(String, ForeignKey("exercises.exercise_id"))
+    exercise_reps = Column(Integer)
+    exercise_sets = Column(Integer)
+    exercise_description = Column(String)
+    updated_at = Column(DateTime)
+    created_at = Column(DateTime)
+
+    workout = relationship("WorkoutsTable")
+    exercise = relationship("ExercisesTable")
 
 
 
@@ -93,14 +117,3 @@ class UserId(BaseModel):
 class LoginUser(BaseModel):
     user_login: str
     user_password: str
-
-class Workouts(BaseModel):
-    workout_id: Optional[str]
-    workout_name: Optional[str]
-    workout_description: Optional[str]
-    created_at: Optional[datetime]
-    updated_at: Optional[datetime]
-
-    class Config:
-        orm_mode = True
-        allow_population_by_field_name = True
