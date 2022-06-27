@@ -1,11 +1,11 @@
 from lib.base.base_job import BaseJob
 from lib.logger.struct_log import logger
-from sqlalchemy import select, and_
+from sqlalchemy import select, and_, inspect
 
 from lib.models.models import (
     ExercisesTable, WorkoutPlanWorkoutsTable,
     WorkoutsTable, WorkoutExercisesTable, WorkoutPlansTable,
-    UserWorkoutPlansTable)
+    UserWorkoutPlansTable, UserWorkoutExercises)
 
 
 class ExerciseController(BaseJob):
@@ -29,18 +29,27 @@ class ExerciseController(BaseJob):
 
         with self.session_factory() as session:
             result = session.execute(query).fetchall()
-            exercise_list = []
-            for row in result:
-                dicionario = row._mapping
-                print(dicionario)
-                exercise_list.append(dicionario)
+            exercise_list = [dict(t) for t in result]
+            result_list = []
+            for row in exercise_list:
+                exer_table = self.object_as_dict(row["ExercisesTable"])
+                work_exer_table = self.object_as_dict(row["WorkoutExercisesTable"])
+                table = UserWorkoutExercises(
+                    workout_id = work_exer_table["workout_id"],
+                    exercise_id = work_exer_table["exercise_id"],
+                    exercise_name = exer_table["exercise_name"],
+                    exercise_muscle_group = exer_table["exercise_muscle_group"],
+                    exercise_reps = work_exer_table["exercise_reps"],
+                    exercise_sets = work_exer_table["exercise_sets"],
+                    exercise_description = exer_table["exercise_description"])
+                result_list.append(table)
 
-            if not exercise_list:
-                logger.info(f"Exercise not found, user_id{user_id}")
-                exercise_list = []
-
-            return exercise_list
+            return result_list
 
 
     def get_exercise_by_muscle_group(self):
         ...
+
+    def object_as_dict(self, obj):
+        return {c.key: getattr(obj, c.key)
+                for c in inspect(obj).mapper.column_attrs}

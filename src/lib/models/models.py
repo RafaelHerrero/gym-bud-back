@@ -117,3 +117,12 @@ class UserId(BaseModel):
 class LoginUser(BaseModel):
     user_login: str
     user_password: str
+
+class UserWorkoutExercises(BaseModel):
+    workout_id: str
+    exercise_id: str
+    exercise_name: str
+    exercise_muscle_group: str
+    exercise_reps: str
+    exercise_sets: str
+    exercise_description: str
