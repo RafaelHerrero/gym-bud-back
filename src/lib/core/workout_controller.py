@@ -25,7 +25,7 @@ class WorkoutController(BaseJob):
             workout_list = []
             for row in result:
                 dicionario = row._mapping
-                workouts = Workouts.from_orm(dicionario["WorkoutTable"])
+                workouts = Workouts.from_orm(dicionario["WorkoutsTable"])
                 workout_list.append(workouts)
 
             if not workout_list:
