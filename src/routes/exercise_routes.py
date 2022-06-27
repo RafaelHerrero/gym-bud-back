@@ -1,7 +1,7 @@
 
 from fastapi import APIRouter, Body, status, Response
 from lib.core.exercise_controller import ExerciseController
-from lib.models.models import UserWorkoutExercises
+from lib.models.models import UserWorkoutExercises, Exercises
 
 router = APIRouter(
     prefix="/exercises",
@@ -13,7 +13,7 @@ async def get_exercises_from_workout(user_id: str, workout_id: str):
     exercises = ExerciseController()
     return exercises.get_exercises_from_workout(user_id, workout_id)
 
-@router.get("/{muscle_group}", tags=["Exercises Routes"], status_code=200)
+@router.get("/{muscle_group}", tags=["Exercises Routes"], status_code=200, response_model=list[Exercises])
 async def get_exercise_by_muscle_group(muscle_group: str):
     exercises = ExerciseController()
-    return exercises.get_exercise_by_muscle_group()
+    return exercises.get_exercise_by_muscle_group(muscle_group)

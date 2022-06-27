@@ -5,7 +5,7 @@ from sqlalchemy import select, and_, inspect
 from lib.models.models import (
     ExercisesTable, WorkoutPlanWorkoutsTable,
     WorkoutsTable, WorkoutExercisesTable, WorkoutPlansTable,
-    UserWorkoutPlansTable, UserWorkoutExercises)
+    UserWorkoutPlansTable, UserWorkoutExercises, Exercises)
 
 
 class ExerciseController(BaseJob):
@@ -47,8 +47,22 @@ class ExerciseController(BaseJob):
             return result_list
 
 
-    def get_exercise_by_muscle_group(self):
-        ...
+    def get_exercise_by_muscle_group(self, muscle_group: str):
+        query = select(ExercisesTable).where(ExercisesTable.exercise_muscle_group == muscle_group)
+        with self.session_factory() as session:
+            result = session.execute(query).fetchall()
+            exercise_list = [dict(t) for t in result]
+            result_list = []
+            for row in exercise_list:
+                exer_table = self.object_as_dict(row["ExercisesTable"])
+                table = Exercises(
+                    exercise_id = exer_table["exercise_id"],
+                    exercise_name = exer_table["exercise_name"],
+                    exercise_muscle_group = exer_table["exercise_muscle_group"],
+                    exercise_description = exer_table["exercise_description"])
+                result_list.append(table)
+
+            return result_list
 
     def object_as_dict(self, obj):
         return {c.key: getattr(obj, c.key)

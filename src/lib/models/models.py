@@ -29,6 +29,12 @@ class ExercisesTable(Base):
     updated_at = Column(DateTime)
     created_at = Column(DateTime)
 
+class Exercises(BaseModel):
+    exercise_id: str
+    exercise_name: str
+    exercise_muscle_group: str
+    exercise_description: str
+
 
 class WorkoutsTable(Base):
     __tablename__ = 'workouts'
