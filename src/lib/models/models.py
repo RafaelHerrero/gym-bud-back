@@ -35,6 +35,8 @@ class Exercises(BaseModel):
     exercise_muscle_group: str
     exercise_description: str
 
+class DeleteExercise(BaseModel):
+    exercise_id: str
 
 class WorkoutsTable(Base):
     __tablename__ = 'workouts'

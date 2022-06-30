@@ -1,9 +1,10 @@
 from lib.base.base_job import BaseJob
 from lib.logger.struct_log import logger
+from fastapi import HTTPException, status
 from sqlalchemy import select, and_, inspect
 
 from lib.models.models import (
-    ExercisesTable, WorkoutPlanWorkoutsTable,
+    DeleteExercise, ExercisesTable, WorkoutPlanWorkoutsTable,
     WorkoutsTable, WorkoutExercisesTable, WorkoutPlansTable,
     UserWorkoutPlansTable, UserWorkoutExercises, Exercises)
 
@@ -67,3 +68,34 @@ class ExerciseController(BaseJob):
     def object_as_dict(self, obj):
         return {c.key: getattr(obj, c.key)
                 for c in inspect(obj).mapper.column_attrs}
+
+    def create_new_exercise(self, exercise: Exercises):
+        check_query = select(ExercisesTable).where(ExercisesTable.exercise_name == exercise.exercise_name)
+        exercise_json = exercise.dict()
+        exercise_instance = ExercisesTable(**exercise_json)
+
+        with self.session_factory() as session:
+            existing_exercise = session.execute(check_query).first()
+            if not existing_exercise:
+                session.add(exercise_instance)
+                session.commit()
+                session.refresh(exercise_instance)
+                return True
+            else:
+                raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Exercise already exists")
+
+    def delete_exercise(self, exercise: DeleteExercise):
+        with self.session_factory() as session:
+            entity: Exercises = session.query(ExercisesTable).filter(
+                ExercisesTable.exercise_id == exercise.exercise_id).first()
+            if not entity:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Exercise not found to be deleted"
+                )
+            else:
+                session.delete(entity)
+                session.commit()
+            return True
