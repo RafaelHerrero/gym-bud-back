@@ -23,7 +23,7 @@ async def create_new_exercise(payload: Exercises):
     exercises = ExerciseController()
     return exercises.create_new_exercise(payload)
 
-@router.delete("/delete", tags=["Exercise Routes"], status_code=200)
+@router.delete("/delete", tags=["Exercises Routes"], status_code=200)
 async def delete_exercise(payload: DeleteExercise):
     exercise = ExerciseController()
     return exercise.delete_exercise(payload)
