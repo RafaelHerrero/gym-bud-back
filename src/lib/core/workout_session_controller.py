@@ -9,14 +9,17 @@ class WorkoutSessionController(BaseJob):
     def __init__(self) -> None:
         super().__init__()
 
-    def create_workout_session(self, payload: WorkoutSession):
-        workout_session_instance = WorkoutSessionTable(**payload.dict())
+    def create_workout_session(self, payload: list[WorkoutSession]):
+        workout_session_instance = [WorkoutSessionTable(**row.dict()) for row in payload]
+        ids = [row.workout_session_id for row in payload]
         with self.session_factory() as session:
-            entity: WorkoutSession = session.query(WorkoutSessionTable).filter(
-                WorkoutSessionTable.workout_session_id == payload.workout_session_id).first()
+            query = select(WorkoutSessionTable).where(WorkoutSessionTable.workout_session_id.in_(ids))
+            existing_workout_session: list[WorkoutSession] = session.execute(query).fetchall()
+            # entity: WorkoutSession = session.query(WorkoutSessionTable).filter(
+                # WorkoutSessionTable.workout_session_id payload.workout_session_id).first()
 
-            if not entity:
-                session.add(workout_session_instance)
+            if not existing_workout_session:
+                session.add_all(workout_session_instance)
                 session.commit()
             else:
                 raise HTTPException(
