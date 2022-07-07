@@ -1,6 +1,6 @@
 from lib.base.base_job import BaseJob
 from lib.logger.struct_log import logger
-from lib.models.models import UserWorkoutPlansTable, WorkoutPlansTable, WorkoutPlan
+from lib.models.models import UserWorkoutPlansTable, WorkoutPlansTable, WorkoutPlan, DeleteWorkoutPlan
 from sqlalchemy import select, and_
 from fastapi import status, HTTPException
 
@@ -46,3 +46,17 @@ class WorkoutPlanController(BaseJob):
                     detail="Workout Plan Already Exists"
                 )
             return True
+
+    def delete_workout_plan(self, payload: DeleteWorkoutPlan):
+        with self.session_factory() as session:
+            query = select(WorkoutPlansTable).where(WorkoutPlansTable.workout_plan_id == payload.workout_plan_id)
+            result = session.execute(query).fetchall()
+            if not result:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Workout Plan Not Found"
+                )
+            else:
+                session.query(WorkoutPlansTable).filter(WorkoutPlansTable.workout_plan_id == payload.workout_plan_id).delete()
+                session.commit()
+                return True
