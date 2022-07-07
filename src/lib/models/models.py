@@ -66,6 +66,15 @@ class WorkoutPlansTable(Base):
     updated_at = Column(DateTime)
     created_at = Column(DateTime)
 
+class WorkoutPlan(BaseModel):
+    workout_plan_id: Optional[str]
+    workout_plan_name: Optional[str]
+    workout_plan_description: Optional[str]
+    created_at: Optional[datetime]
+    updated_at: Optional[datetime]
+
+    class Config:
+        orm_mode = True
 
 class UserWorkoutPlansTable(Base):
     __tablename__ = 'user_workout_plans'
