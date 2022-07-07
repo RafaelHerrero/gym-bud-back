@@ -12,12 +12,7 @@ async def get_user_active_workout(user_id: str):
     workout = WorkoutController()
     return workout.get_user_active_workouts(user_id)
 
-@router.get("/workout_plans/all", tags=["Workout Routes"], status_code=200)
-async def get_all_workout_plans():
+@router.post("/create", tags=["Workout Routes"], status_code=200)
+async def create_workout(payload: list[Workouts]):
     workout = WorkoutController()
-    return workout.get_all_workout_plans()
-
-@router.get("/workout_plans/active/{user_id}", tags=["Workout Routes"], status_code=200)
-async def get_user_active_workout_plans(user_id):
-    workout = WorkoutController()
-    return workout.get_user_active_workout_plans(user_id)
+    return workout.create_workout(payload)

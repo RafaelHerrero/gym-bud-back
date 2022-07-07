@@ -5,6 +5,7 @@ from routes import user_routes
 from routes import workout_routes
 from routes import exercise_routes
 from routes import workout_session_routes
+from routes import workout_plan_routes
 
 app = FastAPI(title="Gym-Bud-back App")
 
@@ -22,6 +23,7 @@ app.include_router(user_routes.router)
 app.include_router(workout_routes.router)
 app.include_router(exercise_routes.router)
 app.include_router(workout_session_routes.router)
+app.include_router(workout_plan_routes.router)
 
 @app.get("/", tags=["Home Page"])
 async def root():

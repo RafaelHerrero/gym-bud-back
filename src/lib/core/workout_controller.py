@@ -54,3 +54,14 @@ class WorkoutController(BaseJob):
                 active_plans = []
 
             return active_plans
+
+    def create_workout(self, payload: list[Workouts]):
+        with self.session_factory() as session:
+            ids = [row.workout_id for row in payload]
+            query = select(WorkoutsTable).where(WorkoutsTable.workout_id.in_(ids))
+            result = session.execute(query).fetchall()
+            if not result:
+                for workout in payload:
+                    session.add(workout)
+                session.commit()
+                return True
