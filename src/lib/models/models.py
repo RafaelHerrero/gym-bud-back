@@ -54,8 +54,8 @@ class Workouts(BaseModel):
     created_at: Optional[datetime]
     updated_at: Optional[datetime]
 
-    class Config:
-        orm_mode = True
+class DeleteWorkout(BaseModel):
+    workout_id: str
 
 class WorkoutPlansTable(Base):
     __tablename__ = 'workout_plans'

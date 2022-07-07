@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Body, status, Response
 from lib.core.workout_controller import WorkoutController
-from lib.models.models import Workouts
+from lib.models.models import Workouts, DeleteWorkout
 
 router = APIRouter(
     prefix="/workout",
@@ -16,3 +16,8 @@ async def get_user_active_workout(user_id: str):
 async def create_workout(payload: list[Workouts]):
     workout = WorkoutController()
     return workout.create_workout(payload)
+
+@router.delete("/delete", tags=["Workout Routes"], status_code=200)
+async def delete_workout(payload: DeleteWorkout):
+    workout = WorkoutController()
+    return workout.delete_workout(payload)
