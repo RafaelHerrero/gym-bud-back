@@ -76,11 +76,13 @@ CREATE TABLE public.workout_exercises (
 
 CREATE TABLE public.workout_session (
     workout_session_id TEXT NOT NULL,
+	workout_session TEXT NOT NULL,
     user_workout_plan_id TEXT references public.user_workout_plans(user_workout_plan_id),
     workout_plan_workout_id TEXT references public.workout_plan_workouts(workout_plan_workout_id),
 	workout_exercise_id TEXT references public.workout_exercises(workout_exercise_id),
-	workout_session_sets TEXT,
-	workout_session_reps TEXT,
+	workout_session_set_number INT,
+	workout_session_reps INT,
+	workout_session_weight INT,
 	created_at timestamp with time zone DEFAULT now(),
 	updated_at timestamp with time zone DEFAULT now(),
     primary key( workout_session_id)

@@ -124,21 +124,25 @@ class WorkoutSessionTable(Base):
     __tablename__ = 'workout_session'
 
     workout_session_id = Column(String, primary_key=True)
+    workout_session = Column(String)
     user_workout_plan_id = Column(String, ForeignKey("user_workout_plans.user_workout_plan_id"))
     workout_plan_workout_id = Column(String, ForeignKey("workout_plan_workouts.workout_plan_workout_id"))
     workout_exercise_id = Column(String, ForeignKey("workout_exercises.workout_exercise_id"))
-    workout_session_sets = Column(Integer)
+    workout_session_set_number = Column(Integer)
     workout_session_reps = Column(Integer)
+    workout_session_weight = Column(Integer)
     updated_at = Column(DateTime)
     created_at = Column(DateTime)
 
 class WorkoutSession(BaseModel):
     workout_session_id: str
+    workout_session: str
     user_workout_plan_id: str
     workout_plan_workout_id: str
     workout_exercise_id: str
-    workout_session_sets: int
+    workout_session_set_number: int
     workout_session_reps: int
+    workout_session_weight: int
     updated_at: datetime
     created_at: datetime
 
