@@ -53,6 +53,8 @@ class Workouts(BaseModel):
     workout_description: Optional[str]
     created_at: Optional[datetime]
     updated_at: Optional[datetime]
+    class Config:
+        orm_mode = True
 
 class DeleteWorkout(BaseModel):
     workout_id: str
@@ -72,6 +74,8 @@ class WorkoutPlan(BaseModel):
     workout_plan_description: Optional[str]
     created_at: Optional[datetime]
     updated_at: Optional[datetime]
+    class Config:
+        orm_mode = True
 
 class DeleteWorkoutPlan(BaseModel):
     workout_plan_id: str
