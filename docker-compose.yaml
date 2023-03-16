@@ -6,11 +6,12 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=main
     ports:
       - '5432:5432'
-    volumes: 
-      - ./infra_init/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
-      - ./infra_init/fill_tables.sql:/docker-entrypoint-initdb.d/fill_tables.sql
+    # volumes:
+    #   - ./infra_init/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    #   - ./infra_init/fill_tables.sql:/docker-entrypoint-initdb.d/fill_tables.sql
     networks:
       - postgres-compose-network
 
