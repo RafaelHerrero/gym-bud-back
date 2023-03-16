@@ -13,7 +13,7 @@ class WorkoutPlanController(BaseJob):
         with self.session_factory() as session:
             return session.query(WorkoutPlansTable).all()
 
-    def get_user_active_workout_plans(self, user_id):
+    def get_user_active_workout_plans(self, user_id) -> list:
         query = select(WorkoutPlansTable) \
                     .join(UserWorkoutPlansTable,
                             UserWorkoutPlansTable.workout_plan_id == WorkoutPlansTable.workout_plan_id) \
@@ -22,13 +22,18 @@ class WorkoutPlanController(BaseJob):
                         UserWorkoutPlansTable.workout_plan_is_active == True))
 
         with self.session_factory() as session:
-            active_plans = session.execute(query).fetchall()
+            active_workout_plans = session.execute(query).fetchall()
+            workout_plan_list = []
+            for row in active_workout_plans:
+                dicionario = row._mapping
+                workouts = WorkoutPlan.from_orm(dicionario["WorkoutPlansTable"])
+                workout_plan_list.append(workouts)
 
-            if not active_plans:
-                logger.info(f"Workout not found, user_id{user_id}")
-                active_plans = []
+            if not workout_plan_list:
+                logger.info(f"Workout Plans not found, user_id{user_id}")
+                workout_plan_list = []
 
-            return active_plans
+            return workout_plan_list
 
     def create_workout_plan(self, payload: list[WorkoutPlan]):
         with self.session_factory() as session:
