@@ -9,6 +9,10 @@ class Exercise(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "Exercise"
+        verbose_name_plural = "Exercises"
+
     def __str__(self):
         return self.name
 
@@ -20,6 +24,10 @@ class Workout(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "Workout"
+        verbose_name_plural = "Workouts"
+
     def __str__(self):
         return self.name
 
@@ -30,6 +38,10 @@ class WorkoutPlan(models.Model):
     workouts = models.ManyToManyField(Workout, through='WorkoutPlanWorkout')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Workout Plan"
+        verbose_name_plural = "Workout Plan"
 
     def __str__(self):
         return self.name
@@ -45,6 +57,10 @@ class UserWorkoutPlan(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "User Workout Plan"
+        verbose_name_plural = "User Workout Plan"
+
     def __str__(self):
         return f"{self.user.username} - {self.workout_plan.name}"
 
@@ -58,6 +74,10 @@ class WorkoutExercise(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "Workout Exercise"
+        verbose_name_plural = "Workout Exercise"
+
     def __str__(self):
         return f"{self.workout.name} - {self.exercise.name}"
 
@@ -68,5 +88,27 @@ class WorkoutPlanWorkout(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "Workout Plan Workout"
+        verbose_name_plural = "Workout Plan Workout"
+
     def __str__(self):
         return f"{self.workout_plan.name} - {self.workout.name}"
+
+
+class WorkoutSession(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    workout_plan = models.ForeignKey('WorkoutPlan', on_delete=models.CASCADE)
+    workout = models.ForeignKey('Workout', on_delete=models.CASCADE)
+    exercise = models.ForeignKey('Exercise', on_delete=models.CASCADE)
+    set_number = models.PositiveIntegerField()
+    reps = models.PositiveIntegerField()
+    weight = models.DecimalField(max_digits=6, decimal_places=2)
+    date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Workout Session'
+        verbose_name_plural = 'Workout Sessions'
+
+    def __str__(self):
+        return f"{self.user.username} - {self.workout.name} - {self.exercise.name}"

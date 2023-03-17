@@ -16,6 +16,9 @@ python-jose = {version = "*", extras = ["cryptography"]}
 passlib = {version = "*", extras = ["bcrypt"]}
 python-multipart = "^0.0.5"
 django = "^4.1.7"
+djangorestframework = "^3.14.0"
+coreapi = "^2.3.3"
+drf-yasg = "^1.21.5"
 
 [tool.poetry.dev-dependencies]
 
