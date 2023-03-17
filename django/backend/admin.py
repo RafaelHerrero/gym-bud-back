@@ -1,7 +1,8 @@
 from django.contrib import admin
 
-from .models import Exercise, Workout, WorkoutPlan, UserWorkoutPlan, WorkoutExercise, WorkoutPlanWorkout
+from .models import Exercise, Workout, WorkoutPlan, UserWorkoutPlan, WorkoutExercise, WorkoutPlanWorkout, CustomUser
 
+admin.site.register(CustomUser)
 admin.site.register(Exercise)
 admin.site.register(Workout)
 admin.site.register(WorkoutPlan)

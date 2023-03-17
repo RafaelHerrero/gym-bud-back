@@ -1,28 +1,20 @@
 from django.urls import path
-
+from rest_framework.routers import DefaultRouter
 from . import views
+
+
+router = DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'workout', views.WorkoutViewSet)
+router.register(r'workout-plan', views.WorkoutPlanViewSet)
+router.register(r'user-workout-plan', views.UserWorkoutPlanViewSet)
+router.register(r'exercise', views.ExerciseViewSet)
+router.register(r'workout-exercise', views.WorkoutExerciseViewSet)
+router.register(r'workout-plan-workouts', views.WorkoutPlanWorkoutViewSet)
+router.register(r'workout-session', views.WorkoutSessionViewSet)
 
 urlpatterns = [
     path('', views.index, name='index'),
+] + router.urls
 
-    path("exercise/", views.ExerciseList.as_view(),name="exercise_list"),
-    path("exercise/<int:pk>/", views.ExerciseDetail.as_view(),name="exercise_detail"),
-
-    path("workout/",views.WorkoutsList.as_view(),name="workout_list"),
-    path("workout/<int:pk>/",views.WorkoutsDetail.as_view(),name="workout_detail"),
-
-    path("workout-exercise/",views.WorkoutExercisesList.as_view(),name="workout_exercise_list"),
-    path("workout-exercise/<int:pk>/",views.WorkoutExercisesDetail.as_view(),name="workout_exercise_list"),
-
-    path("workout-plan/",views.WorkoutPlansList.as_view(),name="workout_plans_list"),
-    path("workout-plan/<int:pk>/",views.WorkoutPlansDetail.as_view(),name="workout_plans_detail"),
-
-    path("user-workout-plan/",views.UserWorkoutPlansList.as_view(),name="user_workout_plans_list"),
-    path("user-workout-plan/<int:pk>/",views.UserWorkoutPlansDetail.as_view(),name="user_workout_plans_detail"),
-
-    path("workout-plan-workouts/",views.WorkoutPlanWorkoutsList.as_view(),name="workout_plans_workout_list"),
-    path("workout-plan-workouts/<int:pk>/",views.WorkoutPlanWorkoutsDetail.as_view(),name="workout_plans_workout_detail"),
-
-    path("workout-session/",views.WorkoutSessionList.as_view(),name="workout_session_list"),
-    path("workout-session/<int:pk>/",views.WorkoutSessionDetail.as_view(),name="workout_session_detail"),
-]
+    # path('workout/<int:pk>/exercises/', views.WorkoutViewSet.as_view({'get': 'get_workout_exercises'}), name='workout_exercises'),

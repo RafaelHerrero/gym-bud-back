@@ -1,5 +1,44 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, password, **extra_fields):
+        if not email:
+            raise ValueError(_('The Email field must be set'))
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, email, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(email, password, **extra_fields)
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(_('email address'), unique=True)
+    first_name = models.CharField(_('first name'), max_length=30, blank=True)
+    last_name = models.CharField(_('last name'), max_length=150, blank=True)
+    date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
+    is_active = models.BooleanField(_('active'), default=True)
+    is_staff = models.BooleanField(_('staff status'), default=False)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.email
+
+    def get_full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
+    def get_short_name(self):
+        return self.first_name
 
 
 class Exercise(models.Model):
@@ -48,7 +87,7 @@ class WorkoutPlan(models.Model):
 
 
 class UserWorkoutPlan(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     workout_plan = models.ForeignKey(WorkoutPlan, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
     started_at = models.DateTimeField(null=True, blank=True)
@@ -62,7 +101,7 @@ class UserWorkoutPlan(models.Model):
         verbose_name_plural = "User Workout Plan"
 
     def __str__(self):
-        return f"{self.user.username} - {self.workout_plan.name}"
+        return f"{self.user.first_name} - {self.workout_plan.name}"
 
 
 class WorkoutExercise(models.Model):
@@ -97,7 +136,7 @@ class WorkoutPlanWorkout(models.Model):
 
 
 class WorkoutSession(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     workout_plan = models.ForeignKey('WorkoutPlan', on_delete=models.CASCADE)
     workout = models.ForeignKey('Workout', on_delete=models.CASCADE)
     exercise = models.ForeignKey('Exercise', on_delete=models.CASCADE)
@@ -111,4 +150,4 @@ class WorkoutSession(models.Model):
         verbose_name_plural = 'Workout Sessions'
 
     def __str__(self):
-        return f"{self.user.username} - {self.workout.name} - {self.exercise.name}"
+        return f"{self.user.first_name} - {self.workout.name} - {self.exercise.name}"
