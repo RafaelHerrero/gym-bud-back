@@ -4,19 +4,18 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, password, **extra_fields):
-        if not email:
+    def create_user(self, body):
+        if not body["email"]:
             raise ValueError(_('The Email field must be set'))
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
+        user = self.model(**body)
+        user.set_password(body["password"])
         user.save()
         return user
 
-    def create_superuser(self, email, password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        return self.create_user(email, password, **extra_fields)
+    # def create_superuser(self, **extra_fields):
+    #     extra_fields.setdefault('is_staff', True)
+    #     extra_fields.setdefault('is_superuser', True)
+    #     return self.create_user(**extra_fields)
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):

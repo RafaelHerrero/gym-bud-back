@@ -15,8 +15,6 @@ from rest_framework import viewsets
 def index(request):
     return HttpResponse("Hello, world. You're at the GymBud Backend index.")
 
-
-
 class ExerciseViewSet(viewsets.ModelViewSet):
     queryset = Exercise.objects.all()
     serializer_class = ExerciseSerializer
