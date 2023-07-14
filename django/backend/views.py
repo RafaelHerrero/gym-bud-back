@@ -1,6 +1,5 @@
-from rest_framework import generics
-from .models import Exercise, Workout, WorkoutPlan, UserWorkoutPlan, WorkoutExercise, WorkoutPlanWorkout, WorkoutSession, CustomUser
-from .serializers import UserSerializer, ExerciseSerializer, WorkoutSerializer, WorkoutPlanSerializer, UserWorkoutPlanSerializer, \
+from .models import Exercise, Workout, WorkoutPlan, UserWorkoutPlan, WorkoutExercise, WorkoutPlanWorkout, WorkoutSession
+from .serializers import ExerciseSerializer, WorkoutSerializer, WorkoutPlanSerializer, UserWorkoutPlanSerializer, \
                          WorkoutExerciseSerializer, WorkoutSessionSerializer, WorkoutPlanWorkoutSerializer
 
 from django.http import HttpResponse
@@ -8,16 +7,14 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
 
+
 from rest_framework.decorators import action
 from rest_framework import viewsets
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the GymBud index.")
+    return HttpResponse("Hello, world. You're at the GymBud Backend index.")
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = CustomUser.objects.all()
-    serializer_class = UserSerializer
 
 
 class ExerciseViewSet(viewsets.ModelViewSet):

@@ -1,11 +1,5 @@
 from rest_framework import serializers
-from .models import Exercise, Workout, WorkoutPlan, UserWorkoutPlan, WorkoutExercise, WorkoutSession, WorkoutPlanWorkout, CustomUser
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = '__all__'
+from .models import Exercise, Workout, WorkoutPlan, UserWorkoutPlan, WorkoutExercise, WorkoutSession, WorkoutPlanWorkout
 
 
 class ExerciseSerializer(serializers.ModelSerializer):

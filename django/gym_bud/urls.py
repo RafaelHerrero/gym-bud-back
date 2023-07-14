@@ -39,6 +39,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('backend/', include('backend.urls')),
+    path('auth/', include('authentication.urls')),
     path('admin/', admin.site.urls),
     path('docs/', include_docs_urls(title='Todo Api')),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
