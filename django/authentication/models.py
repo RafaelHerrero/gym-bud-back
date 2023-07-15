@@ -13,10 +13,10 @@ class CustomUserManager(BaseUserManager):
         user.save()
         return user
 
-    # def create_superuser(self, **extra_fields):
-    #     extra_fields.setdefault('is_staff', True)
-    #     extra_fields.setdefault('is_superuser', True)
-    #     return self.create_user(**extra_fields)
+    def create_superuser(self, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.register(extra_fields)
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
