@@ -11,8 +11,8 @@ router = DefaultRouter()
 router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('login/', views.CustomLoginView.as_view(), name='login'),
+    path('', views.index, name='auth_index'),
+    path('login/', views.AuthLoginView.as_view(), name='auth-login'),
     path("register/", views.register, name="create_user"),
     path('token/create/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

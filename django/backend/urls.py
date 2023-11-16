@@ -13,7 +13,7 @@ router.register(r'workout-plan-workouts', views.WorkoutPlanWorkoutViewSet)
 router.register(r'workout-session', views.WorkoutSessionViewSet)
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.index, name='backend_index'),
 ] + router.urls
 
     # path('workout/<int:pk>/exercises/', views.WorkoutViewSet.as_view({'get': 'get_workout_exercises'}), name='workout_exercises'),

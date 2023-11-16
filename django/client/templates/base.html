@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>Data With Me</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- HTMX -->
+        <script src="https://unpkg.com/htmx.org@1.9.8" integrity="sha384-rgjA7mptc2ETQqXoYC3/zJvkU7K/aP44Y+z7xQuJiVnB/422P/Ak+F/AqFR7E4Wr" crossorigin="anonymous"></script>
+    </head>
+    <main class="main-content">
+    <body class="layout-default">
+        {% load static %}
+        <!-- Begin Menu Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <!-- Begin Logo -->
+            <a class="navbar-brand" href="{% url 'client_index' %}">
+                GymBud
+            </a>
+            <!-- End Logo -->
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDataWithMe" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Begin Menu -->
+            <div class="navbar-collapse collapse" id="navbarDataWithMe">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'client_index' %}">
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Sign Up
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- End Menu -->
+        </nav>
+        <!-- End Navigation -->
+
+        <!-- Content -->
+        <div class="main-content">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <!-- End Content -->
+    </body>
+    </main>
+</html>
+
+

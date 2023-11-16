@@ -20,6 +20,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    path('', include('client.urls')),
     path('backend/', include('backend.urls')),
     path('auth/', include('authentication.urls')),
     path('admin/', admin.site.urls),

@@ -56,9 +56,10 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'rest_framework',
-    'coreapi', # Coreapi for coreapi documentation
-    'drf_yasg', # drf_yasg fro Swagger documentation
+    'coreapi',  # Coreapi for coreapi documentation
+    'drf_yasg',  # drf_yasg fro Swagger documentation
     'rest_framework_simplejwt',
+    'client.apps.ClientConfig',
     'backend.apps.BackendConfig',
     'authentication.apps.AuthenticationConfig',
     'django.contrib.admin',
@@ -106,12 +107,8 @@ WSGI_APPLICATION = 'gym_bud.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'main',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -134,6 +131,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_REDIRECT_URL = '/home/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
